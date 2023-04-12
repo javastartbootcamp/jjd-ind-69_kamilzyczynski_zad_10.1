@@ -4,31 +4,37 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class GamesLibrary {
-    Game[] games = new Game[3];
+    private Game[] games = new Game[3];
+    private int gamesCounter = 0;
 
     void addGamesToLibrary() {
-        int gamesCounter = 0;
-        Scanner scanner = new Scanner(System.in);
         do {
-            System.out.println("Podaj nazwę gry");
-            String name = scanner.nextLine();
-            System.out.println("Podaj cenę");
-            double price = scanner.nextDouble();
-            scanner.nextLine();
-            Game game = new Game(name, price);
-            boolean isGameDuplicated = false;
-            for (int i = 0; i < gamesCounter; i++) {
-                if (games[i].equals(game)) {
-                    System.out.println("Duplikat");
-                    isGameDuplicated = true;
-                    break;
-                }
-            }
-            if (!isGameDuplicated) {
+            Game game = createGame();
+            if (isUnique(game)) {
                 games[gamesCounter] = game;
                 gamesCounter++;
             }
         } while (gamesCounter < games.length);
+    }
+
+    private boolean isUnique(Game game) {
+        for (int i = 0; i < gamesCounter; i++) {
+            if (games[i].equals(game)) {
+                System.out.println("Duplikat");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Game createGame() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj nazwę gry");
+        String name = scanner.nextLine();
+        System.out.println("Podaj cenę");
+        double price = scanner.nextDouble();
+        scanner.nextLine();
+        return new Game(name, price);
     }
 
     @Override
